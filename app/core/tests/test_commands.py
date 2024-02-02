@@ -12,7 +12,7 @@ from django.test import SimpleTestCase
 
 
 # added first to the function argument
-@patch("core.management.commands.wait_for_db.Command.check")
+@patch('core.management.commands.wait_for_db.Command.check')
 class CommandsClass(SimpleTestCase):
     """ Test commands"""
 
