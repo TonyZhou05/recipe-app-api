@@ -24,7 +24,7 @@ class CommandsClass(SimpleTestCase):
 
         patched_check.assert_called_once_with(databases=['default'])
 
-    # added secondly to the function argument
+    # added firstly to the function argument
     @patch('time.sleep')
     def test_wait_for_db_delay(self, patched_sleep, patched_check):
         """ Test waiting for database when getting operational error"""
