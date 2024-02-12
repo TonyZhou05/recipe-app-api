@@ -52,7 +52,7 @@ class Recipe(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    title = models.CharField(max_length=255),
+    title = models.CharField(max_length=255)
     # text field can hold more data than char field
     description = models.TextField(blank=True)
     time_minutes = models.IntegerField()
