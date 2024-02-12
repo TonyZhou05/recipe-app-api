@@ -30,7 +30,7 @@ class UserSerializer(serializers.ModelSerializer):
         # find the password or default to None
         password = validated_data.pop('password', None)
         # Provided by the model serializer, set everything other than password
-        user = super().update(instance, validated_data)
+        user = super().update(instance, validated_data) 
 
         # set the password using the set_password method
         if password:
