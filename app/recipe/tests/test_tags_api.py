@@ -29,10 +29,10 @@ class PublicTagsApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
-class PrivateGasApiTests(TestCase):
+class PrivateTagsApiTests(TestCase):
     """Test authenticated API requests."""
     def setUp(self):
-        user = create_user()
+        self.user = create_user()
         self.client = APIClient()
         self.client.force_authenticate(self.user)
 
