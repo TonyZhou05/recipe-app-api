@@ -85,3 +85,5 @@ class PrivateTagsApiTests(TestCase):
         tags = Tag.objects.filter(user=self.user)
         self.assertFalse(tags.exists())
     
+    
+
