@@ -258,7 +258,7 @@ class PrivateRecipeAPITests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         new_tag = Tag.objects.get(user=self.user, name='Lunch')
-        self.assertIn(new_tag. recipe.tags.all())
+        self.assertIn(new_tag, recipe.tags.all())
 
     def test_update_recipe_assign_tag(self):
         """Test assigning an existing tag when updating a recipe."""
@@ -269,9 +269,9 @@ class PrivateRecipeAPITests(TestCase):
 
         # use api to assign a new tag to the recipe object
         tag_lunch = Tag.objects.create(user=self.user, name='Lunch')
-        payload = {'tag': [{'name': 'Lunch'}]}
+        payload = {'tags': [{'name': 'Lunch'}]}
         url = detail_url(recipe.id)
-        res = self.client.patch(url, payload, json='json')
+        res = self.client.patch(url, payload, format='json')
         
         # inspect that the previous tag is no longer assigned to the recipe object
         # The new tag is assigned to the recipe object
