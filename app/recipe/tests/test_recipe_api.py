@@ -327,10 +327,10 @@ class PrivateRecipeAPITests(TestCase):
             'title': "Vietnamese Soup",
             'time_minutes': 40,
             'price': Decimal('2.55'),
-            'ingredients': [{'name': 'Lemon', 'name': 'Fish Sauce'}]
+            'ingredients': [{'name': 'Lemon'}, {'name': 'Fish Sauce'}]
         }
     
-        res = self.client.post(RECIPES_URL, payload, forma='json')
+        res = self.client.post(RECIPES_URL, payload, format='json')
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         recipes = Recipe.objects.filter(user=self.user)
         self.assertEqual(recipes.count(), 1)
@@ -345,17 +345,17 @@ class PrivateRecipeAPITests(TestCase):
             self.assertTrue(exists)
     
     def test_create_ingredient_on_update(self):
-            """Test creating an ingredient when updating a recipe."""
-            recipe = create_recipe(user=self.user)
+        """Test creating an ingredient when updating a recipe."""
+        recipe = create_recipe(user=self.user)
 
-            payload = {'ingredients': [{'name': 'Limes'}]}
+        payload = {'ingredients': [{'name': 'Limes'}]}
 
-            url = detail_url(recipe.id)
-            res = self.client.patch(url, payload, format='json')
+        url = detail_url(recipe.id)
+        res = self.client.patch(url, payload, format='json')
 
-            self.assertEqual(res.status_code, status.HTTP_200_OK)
-            new_ingredient = Ingredient.objects.filter(user=self.user, name='Limes')
-            self.assertIn(new_ingredient, recipe.ingredients.all())
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        new_ingredient = Ingredient.objects.get(user=self.user, name='Limes')
+        self.assertIn(new_ingredient, recipe.ingredients.all())
 
     def test_update_recipe_assign_ingredient(self):
         """Test assigning an existing ingredient when updating a recipe"""

@@ -39,34 +39,31 @@ class RecipeViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-    
-class TagViewSet(mixins.DestroyModelMixin,
+
+class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
                  mixins.UpdateModelMixin, 
                  mixins.ListModelMixin, 
                  viewsets.GenericViewSet):
-    """Manage tags in the database."""
-    serializer_class = serializers.TagSerializer
-    queryset = Tag.objects.all()
+    """Base viewset for recipe attributes."""
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        """Filter queryset to authenticated user."""
-        return self.queryset.filter(user=self.request.user).order_by('-name')
-
-# class inherit from these base classes, no need to update urls.py
-class IngredientViewSet(mixins.DestroyModelMixin,
-                        mixins.UpdateModelMixin,
-                        mixins.ListModelMixin,
-                        viewsets.GenericViewSet):
-    """Manage ingredients in the database"""
-    serializer_class = serializers.IngredientSerializer
-    queryset = Ingredient.objects.all()
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-
-    # users are only able to modify the ingredients under their name
     def get_queryset(self):
         """Filter queryset to authenticated user"""
         return self.queryset.filter(user=self.request.user).order_by('-name')
+    
+    
+class TagViewSet(BaseRecipeAttrViewSet):
+    """Manage tags in the database."""
+    serializer_class = serializers.TagSerializer
+    queryset = Tag.objects.all()
+
+# class inherit from these base classes, no need to update urls.py
+class IngredientViewSet(BaseRecipeAttrViewSet):
+    """Manage ingredients in the database"""
+    serializer_class = serializers.IngredientSerializer
+    queryset = Ingredient.objects.all()
+
+
+    # users are only able to modify the ingredients under their name
+    
